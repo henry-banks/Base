@@ -10,7 +10,7 @@
 */
 void main()
 {
-	sfw::initContext();
+	sfw::initContext(1280, 800);
 
 
 	GameState gs;

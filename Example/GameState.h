@@ -19,7 +19,8 @@
 class GameState : public BaseState
 {
 	Factory factory;
-	unsigned spr_space, spr_ship, spr_bullet, spr_roid, spr_font;
+	unsigned spr_space, spr_ship, spr_bullet, spr_roid, spr_font,
+			 spr_char, spr_enemy, spr_back;
 	ObjectPool<Entity>::iterator currentCamera;
 
 public:
@@ -30,6 +31,10 @@ public:
 		spr_ship = sfw::loadTextureMap("../res/ship.png");
 		spr_roid = sfw::loadTextureMap("../res/rock.png");
 		spr_font = sfw::loadTextureMap("../res/font.png",32,4);
+
+		spr_char = sfw::loadTextureMap("../res/DEUS VULT.png");
+		spr_enemy = sfw::loadTextureMap("../res/pleg doctor.png");
+		spr_back = sfw::loadTextureMap("../res/ruins.png");
 	}
 
 	virtual void play()
@@ -38,17 +43,13 @@ public:
 		for (auto it = factory.begin(); it != factory.end(); it->onFree(), it.free());
 
 		// setup a default camera
-		currentCamera = factory.spawnCamera(800, 600, 1);
+		currentCamera = factory.spawnCamera(1280, 800, 1);
 		currentCamera->transform->setGlobalPosition(vec2{ 400, 300 });
 
 		// call some spawning functions!
-		factory.spawnStaticImage(spr_space, 0, 0, 800, 600);
+		factory.spawnStaticImage(spr_back, 0, 0, 1280, 800);
 
-		factory.spawnPlayer(spr_ship, spr_font);
-		factory.spawnAsteroid(spr_roid);
-		factory.spawnAsteroid(spr_roid);
-		factory.spawnAsteroid(spr_roid);
-		factory.spawnAsteroid(spr_roid);
+		factory.spawnPlayer(spr_char, spr_font);
 	}
 
 	virtual void stop()

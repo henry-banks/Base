@@ -92,9 +92,9 @@ public:
 		e->text->sprite_id = font;
 		e->text->offset = vec2{ -24,-24 };
 		e->text->off_scale = vec2{.5f,.5f};
-		e->text->setString("Player1");
+		e->text->setString("what the FUCK");
 
-		e->transform->setLocalScale(vec2{48,48});
+		e->transform->setLocalScale(vec2{100,133});
 
 		e->sprite->sprite_id = sprite;
 
@@ -120,6 +120,15 @@ public:
 		e->sprite->sprite_id = sprite;
 
 		return e;
+	}
+
+	ObjectPool<Entity>::iterator spawnBoundary(int pos, bool isVert)
+	{
+		auto e = entities.push();
+
+		e->transform = transforms.push();
+		e->collider = colliders.push();
+		e->
 	}
 };
 

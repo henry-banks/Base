@@ -22,6 +22,7 @@ class GameState : public BaseState
 	unsigned spr_space, spr_ship, spr_bullet, spr_roid, spr_font,
 			 spr_char, spr_enemy, spr_back;
 	ObjectPool<Entity>::iterator currentCamera;
+	ObjectPool<Entity>::iterator player;
 
 public:
 	virtual void init()
@@ -49,10 +50,10 @@ public:
 		// call some spawning functions!
 		factory.spawnStaticImage(spr_back, 640, 400, 1280, 800);
 
-		factory.spawnPlayer(spr_char, spr_font);
+		player = factory.spawnPlayer(spr_char, spr_font);
 
 		//factory.spawnBoundary(100, -150, false);
-		factory.spawnBoundary(0, 100, true);
+		//factory.spawnBoundary(100, 100, true);
 		//factory.spawnBoundary(1070, 10, true);
 
 		//factory.spawnBlank(vec2{ 540,400 });
@@ -132,8 +133,13 @@ public:
 						// if there was a collision,
 						if (cd.result())
 						{
+							if (it->rigidbody && bit->boundary) {
+								it->transform->setGlobalPosition(vec2{ (it->transform->getGlobalPosition().x - (it->rigidbody->velocity.x/10)),  it->transform->getGlobalPosition().y });
+								it->rigidbody->velocity.x = -it->rigidbody->velocity.x;
+							}
+								
 							// condition for dynamic resolution
-							if (it->rigidbody && bit->rigidbody)
+							else if (it->rigidbody && bit->rigidbody)
 								base::DynamicResolution(cd,&it->transform,&it->rigidbody, &bit->transform, &bit->rigidbody);
 							
 							// condition for static resolution
@@ -176,7 +182,8 @@ public:
 				e.rigidbody->draw(&e.transform, cam);
 
 
-		std::cout << currentCamera->transform->getLocalPosition().x << ", " << currentCamera->transform->getLocalPosition().x << endl;
+		//std::cout << currentCamera->transform->getLocalPosition().x << ", " << currentCamera->transform->getLocalPosition().x << endl;
+		std::cout << player->transform->getLocalPosition().x << ", " << player->transform->getLocalPosition().y << endl;
 #endif
 	}
 };

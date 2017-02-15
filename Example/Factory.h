@@ -88,7 +88,10 @@ public:
 		e->rigidbody = rigidbodies.push();
 		e->sprite = sprites.push();
 
-		vec2 v[4] = { vec2{ .5f, .6f }, vec2{ -.5f, .6f }, vec2{ .5f, -.6f }, vec2{ -.5f, .6f } };
+
+		float x = .3f, y = .45f;
+
+		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ x, -y }, vec2{ -x, y } };
 		e->collider = colliders.push(Collider(v, 4));
 		e->controller = controllers.push();
 		e->text = texts.push();
@@ -98,7 +101,7 @@ public:
 		e->text->off_scale = vec2{.5f,.5f};
 		e->text->setString("");
 
-		e->transform->setLocalScale(vec2{100,133});
+		e->transform->setLocalScale(vec2{150,199});
 
 		e->sprite->sprite_id = sprite;
 
@@ -134,20 +137,21 @@ public:
 
 		e->transform = transforms.push();
 		e->boundary = boundaries.push(Boundary(isVert));
-		e->rigidbody = rigidbodies.push();
 
 		if (isVert)
 		{
-			vec2 v[4] = { vec2{ pos, -dist_h }, vec2{ pos, dist_h }, vec2{ pos + size, -dist_h }, vec2{ pos + size, dist_h } };
-			hull h = hull(v, 4);
-			e->collider = colliders.push(h);
+			/*vec2 v[4] = { vec2{ pos, -dist_h }, vec2{ pos, dist_h }, vec2{ pos + size, -dist_h }, vec2{ pos + size, dist_h } };
+			hull h = hull(v, 4);*/
+			aabb ab = aabb(vec2{ pos + (size / 2.f), 0 }, vec2{ (size / 2.f), dist_h });
+			e->collider = colliders.push(ab);
 			e->transform->setGlobalPosition(vec2{ pos, dist_h });
 		}
 		else
 		{
-			vec2 v[4] = { vec2{ -dist_w,pos}, vec2{ dist_w, pos}, vec2{ -dist_w,pos + size}, vec2{ dist_w, pos + size} };
-			hull h = hull(v, 4);
-			e->collider = colliders.push(h);
+			/*vec2 v[4] = { vec2{ -dist_w,pos}, vec2{ dist_w, pos}, vec2{ -dist_w,pos + size}, vec2{ dist_w, pos + size} };
+			hull h = hull(v, 4);*/
+			aabb ab;
+			e->collider = colliders.push(ab);
 			e->transform->setGlobalPosition(vec2{ dist_w, pos });
 		}
 

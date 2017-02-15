@@ -43,13 +43,21 @@ public:
 		for (auto it = factory.begin(); it != factory.end(); it->onFree(), it.free());
 
 		// setup a default camera
-		currentCamera = factory.spawnCamera(1280, 800, 1);
-		currentCamera->transform->setGlobalPosition(vec2{ 400, 300 });
+		currentCamera = factory.spawnCamera(0, 0, 1);
+		currentCamera->transform->setGlobalPosition(vec2{ 0, 0 });
 
 		// call some spawning functions!
-		factory.spawnStaticImage(spr_back, 0, 0, 1280, 800);
+		factory.spawnStaticImage(spr_back, 640, 400, 1280, 800);
 
 		factory.spawnPlayer(spr_char, spr_font);
+
+		//factory.spawnBoundary(100, -150, false);
+		factory.spawnBoundary(0, 100, true);
+		//factory.spawnBoundary(1070, 10, true);
+
+		//factory.spawnBlank(vec2{ 540,400 });
+		
+
 	}
 
 	virtual void stop()
@@ -166,6 +174,9 @@ public:
 		for each(auto &e in factory)
 			if (e.transform && e.rigidbody)
 				e.rigidbody->draw(&e.transform, cam);
+
+
+		std::cout << currentCamera->transform->getLocalPosition().x << ", " << currentCamera->transform->getLocalPosition().x << endl;
 #endif
 	}
 };

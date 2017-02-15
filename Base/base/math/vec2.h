@@ -62,6 +62,14 @@ inline vec2 max(const vec2 &a, const vec2 &b) { return vec2{ flops::max(a.x,b.x)
 inline vec2 clamp(const vec2 &v, const vec2& n, const vec2 &x) { return min(x, max(v,n)); }
 inline vec2 snap(const vec2 &v, const vec2& n, const vec2 &x) { return vec2{ flops::snap(v.x,n.x,x.x),flops::snap(v.y,n.y,x.y)}; }
 inline vec2 lerp(const vec2 &s, const vec2 &e, float t) { return vec2{ flops::lerp(s.x,e.x,t), flops::lerp(s.y,e.y,t) };  }
+inline vec2 abs(const vec2 &a)
+{
+	vec2 out = a;
+	if (out.x < 0) out.x *= -1;
+	if (out.y < 0) out.y *= -1;
+
+	return out;
+}
 
 
 inline bool operator==(const vec2 &a, const vec2 &b) { return flops::fequals(a.x, b.x) && flops::fequals(a.y, b.y); }

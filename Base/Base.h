@@ -12,3 +12,5 @@
 #include "base\Maths.h"
 #include "base\Components.h"
 #include "base\Data.h"
+#include <iostream>
+#include <string>

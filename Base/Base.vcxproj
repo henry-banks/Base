@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="base\Components.h" />
+    <ClInclude Include="base\components\Boundary.h" />
     <ClInclude Include="base\components\Camera.h" />
     <ClInclude Include="base\components\Collider.h" />
     <ClInclude Include="base\components\compdef.h" />
@@ -140,7 +141,6 @@
     <ClInclude Include="base\math\rand.h" />
     <ClInclude Include="base\math\vec2.h" />
     <ClInclude Include="base\math\vec3.h" />
-    <ClInclude Include="Boundary.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

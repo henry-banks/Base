@@ -15,6 +15,7 @@ class Factory
 	ObjectPool<Camera>    cameras;
 	ObjectPool<Text>	  texts;
 	ObjectPool<PlayerController> controllers;
+	ObjectPool<Boundary>  boundaries;
 
 public:
 
@@ -26,7 +27,7 @@ public:
 	Factory(size_t size = 512)
 								: entities(size), transforms(size), rigidbodies(size),
 								  colliders(size), sprites(size), lifetimes(size),
-								  cameras(size), controllers(size), texts(size)
+								  cameras(size), controllers(size), texts(size), boundaries(size)
 	{
 	}
 
@@ -83,16 +84,19 @@ public:
 		auto e = entities.push();
 
 		e->transform = transforms.push();
+		e->transform->setGlobalPosition(vec2{ 520, 400 });
 		e->rigidbody = rigidbodies.push();
 		e->sprite = sprites.push();
-		e->collider = colliders.push();
+
+		vec2 v[4] = { vec2{ .5f, .6f }, vec2{ -.5f, .6f }, vec2{ .5f, -.6f }, vec2{ -.5f, .6f } };
+		e->collider = colliders.push(Collider(v, 4));
 		e->controller = controllers.push();
 		e->text = texts.push();
 
 		e->text->sprite_id = font;
 		e->text->offset = vec2{ -24,-24 };
 		e->text->off_scale = vec2{.5f,.5f};
-		e->text->setString("what the FUCK");
+		e->text->setString("");
 
 		e->transform->setLocalScale(vec2{100,133});
 
@@ -122,13 +126,42 @@ public:
 		return e;
 	}
 
-	ObjectPool<Entity>::iterator spawnBoundary(int pos, bool isVert)
+	ObjectPool<Entity>::iterator spawnBoundary(float pos, int size, bool isVert)
+	{
+		auto e = entities.push();
+
+		float dist_w = 540.f, dist_h = 400.f;
+
+		e->transform = transforms.push();
+		e->boundary = boundaries.push(Boundary(isVert));
+		e->rigidbody = rigidbodies.push();
+
+		if (isVert)
+		{
+			vec2 v[4] = { vec2{ pos, -dist_h }, vec2{ pos, dist_h }, vec2{ pos + size, -dist_h }, vec2{ pos + size, dist_h } };
+			hull h = hull(v, 4);
+			e->collider = colliders.push(h);
+			e->transform->setGlobalPosition(vec2{ pos, dist_h });
+		}
+		else
+		{
+			vec2 v[4] = { vec2{ -dist_w,pos}, vec2{ dist_w, pos}, vec2{ -dist_w,pos + size}, vec2{ dist_w, pos + size} };
+			hull h = hull(v, 4);
+			e->collider = colliders.push(h);
+			e->transform->setGlobalPosition(vec2{ dist_w, pos });
+		}
+
+		return e;
+	}
+
+	ObjectPool<Entity>::iterator spawnBlank(vec2 pos)
 	{
 		auto e = entities.push();
 
 		e->transform = transforms.push();
-		e->collider = colliders.push();
-		e->
+		e->transform->setGlobalPosition(pos);
+
+		return e;
 	}
 };
 

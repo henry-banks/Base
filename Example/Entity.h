@@ -18,7 +18,6 @@ public:
 	ObjectPool<Sprite>::iterator sprite;
 	ObjectPool<Camera>::iterator camera;
 	ObjectPool<Text>::iterator text;
-	ObjectPool<Boundary>::iterator boundary;
 
 	// example of a component in this project
 	ObjectPool<PlayerController>::iterator player;

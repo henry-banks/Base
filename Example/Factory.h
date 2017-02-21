@@ -17,8 +17,6 @@ class Factory
 	ObjectPool<PlayerController>	players;
 	ObjectPool<EnemyController>		enemies;
 
-	ObjectPool<Boundary>  boundaries;
-
 public:
 
 	// iterators to access the entity pool
@@ -29,8 +27,7 @@ public:
 	Factory(size_t size = 512)
 								: entities(size), transforms(size), rigidbodies(size),
 								  colliders(size), sprites(size), lifetimes(size),
-								  cameras(size), players(size), texts(size), boundaries(size),
-								  enemies(size)
+								  cameras(size), players(size), texts(size), enemies(size)
 	{
 	}
 
@@ -152,35 +149,6 @@ public:
 		e->rigidbody->addSpin(rand01()*12-6);
 
 		e->sprite->sprite_id = sprite;
-
-		return e;
-	}
-
-	ObjectPool<Entity>::iterator spawnBoundary(float pos, int size, bool isVert)
-	{
-		auto e = entities.push();
-
-		float dist_w = 540.f, dist_h = 400.f;
-
-		e->transform = transforms.push();
-		e->boundary = boundaries.push(Boundary(isVert));
-
-		if (isVert)
-		{
-			/*vec2 v[4] = { vec2{ pos, -dist_h }, vec2{ pos, dist_h }, vec2{ pos + size, -dist_h }, vec2{ pos + size, dist_h } };
-			hull h = hull(v, 4);*/
-			aabb ab = aabb(vec2{ pos + (size / 2.f), 0 }, vec2{ (size / 2.f), dist_h });
-			e->collider = colliders.push(ab);
-			e->transform->setGlobalPosition(vec2{ pos, dist_h });
-		}
-		else
-		{
-			/*vec2 v[4] = { vec2{ -dist_w,pos}, vec2{ dist_w, pos}, vec2{ -dist_w,pos + size}, vec2{ dist_w, pos + size} };
-			hull h = hull(v, 4);*/
-			aabb ab;
-			e->collider = colliders.push(ab);
-			e->transform->setGlobalPosition(vec2{ dist_w, pos });
-		}
 
 		return e;
 	}

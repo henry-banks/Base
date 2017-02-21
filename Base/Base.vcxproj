@@ -127,6 +127,7 @@
     <ClInclude Include="base\components\Sprite.h" />
     <ClInclude Include="base\components\Text.h" />
     <ClInclude Include="base\components\Transform.h" />
+    <ClInclude Include="base\components\Trigger.h" />
     <ClInclude Include="base\Data.h" />
     <ClInclude Include="base\data\ObjectPool.h" />
     <ClInclude Include="BaseState.h" />
@@ -140,7 +141,6 @@
     <ClInclude Include="base\math\rand.h" />
     <ClInclude Include="base\math\vec2.h" />
     <ClInclude Include="base\math\vec3.h" />
-    <ClInclude Include="Trigger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

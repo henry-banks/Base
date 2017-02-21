@@ -1,0 +1,23 @@
+﻿1>------ Build started: Project: Example, Configuration: Debug Win32 ------
+1>  main.cpp
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(88): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(97): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(110): warning C4244: 'argument': conversion from 'std::size_t' to 'float', possible loss of data
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(110): warning C4244: '=': conversion from 'float' to 'std::size_t', possible loss of data
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(112): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(119): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(120): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(128): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\hull.h(135): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\collision.h(29): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\collision.h(30): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\math\collision.h(34): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\base\base\components\collider.h(42): warning C4018: '<': signed/unsigned mismatch
+1>f:\users\shmiddy\source\repos\base\example\factory.h(147): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+1>f:\users\shmiddy\source\repos\base\example\main.cpp(14): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+1>f:\users\shmiddy\source\repos\base\base\base\components\collider.h(26): warning C4172: returning address of local variable or temporary
+1>f:\users\shmiddy\source\repos\base\base\base\components\collider.h(29): warning C4172: returning address of local variable or temporary
+1>f:\users\shmiddy\source\repos\base\base\base\components\transform.h(65): warning C4715: 'base::Transform::removeChild': not all control paths return a value
+1>  Example.vcxproj -> F:\Users\Shmiddy\Source\Repos\Base\Debug\Example.exe
+1>  Example.vcxproj -> F:\Users\Shmiddy\Source\Repos\Base\Debug\Example.pdb (Partial PDB)
+========== Build: 1 succeeded, 0 failed, 1 up-to-date, 0 skipped ==========

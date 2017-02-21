@@ -168,13 +168,8 @@ public:
 						// if there was a collision,
 						if (cd.result())
 						{
-							if (it->rigidbody && bit->boundary) {
-								it->transform->setGlobalPosition(vec2{ (it->transform->getGlobalPosition().x - (it->rigidbody->velocity.x / 10)),  it->transform->getGlobalPosition().y });
-								it->rigidbody->velocity.x = -it->rigidbody->velocity.x;
-							}
-
 							// condition for dynamic resolution
-							else if (it->rigidbody && bit->rigidbody)
+							if (it->rigidbody && bit->rigidbody)
 								base::DynamicResolution(cd, &it->transform, &it->rigidbody, &bit->transform, &bit->rigidbody);
 
 							// condition for static resolution

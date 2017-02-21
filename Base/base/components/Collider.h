@@ -7,6 +7,7 @@ namespace base
 {
 	class Collider
 	{		
+	protected:
 		hull m_hull;
 		aabb m_localBox;
 

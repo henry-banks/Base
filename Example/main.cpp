@@ -1,7 +1,7 @@
 
 #include "sfwdraw.h"
 #include "GameState.h"
-
+#include <ctime>
 
 /*
 	The main function should be used for application state management.
@@ -10,6 +10,9 @@
 */
 void main()
 {
+	//We're using randomization, so we gotta seed the randoms
+	srand(time(0));
+
 	sfw::initContext(1280, 800);
 
 

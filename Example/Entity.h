@@ -3,6 +3,7 @@
 #include "Base.h"
 
 #include "PlayerController.h"
+#include "EnemyController.h"
 
 using namespace base;
 
@@ -20,7 +21,8 @@ public:
 	ObjectPool<Boundary>::iterator boundary;
 
 	// example of a component in this project
-	ObjectPool<PlayerController>::iterator controller;
+	ObjectPool<PlayerController>::iterator player;
+	ObjectPool<EnemyController>::iterator enemy;
 
 	void onFree()
 	{
@@ -32,6 +34,7 @@ public:
 		camera.free();
 		text.free();
 
-		controller.free();
+		player.free();
+		enemy.free();
 	}
 };

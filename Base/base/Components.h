@@ -11,4 +11,4 @@
 #include "components\Sprite.h"
 #include "components\Camera.h"
 #include "components\Text.h"
-#include "components\Boundary.h"
+#include "components\Trigger.h"

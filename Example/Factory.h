@@ -14,7 +14,9 @@ class Factory
 	ObjectPool<Lifetime>  lifetimes;
 	ObjectPool<Camera>    cameras;
 	ObjectPool<Text>	  texts;
-	ObjectPool<PlayerController> controllers;
+	ObjectPool<PlayerController>	players;
+	ObjectPool<EnemyController>		enemies;
+
 	ObjectPool<Boundary>  boundaries;
 
 public:
@@ -27,7 +29,8 @@ public:
 	Factory(size_t size = 512)
 								: entities(size), transforms(size), rigidbodies(size),
 								  colliders(size), sprites(size), lifetimes(size),
-								  cameras(size), controllers(size), texts(size), boundaries(size)
+								  cameras(size), players(size), texts(size), boundaries(size),
+								  enemies(size)
 	{
 	}
 
@@ -84,7 +87,7 @@ public:
 		auto e = entities.push();
 
 		e->transform = transforms.push();
-		e->transform->setGlobalPosition(vec2{ 520, 400 });
+		e->transform->setGlobalPosition(vec2{ 520, 250 });
 		e->rigidbody = rigidbodies.push();
 		e->sprite = sprites.push();
 
@@ -93,7 +96,7 @@ public:
 
 		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ x, -y }, vec2{ -x, y } };
 		e->collider = colliders.push(Collider(v, 4));
-		e->controller = controllers.push();
+		e->player = players.push();
 		e->text = texts.push();
 
 		e->text->sprite_id = font;
@@ -103,6 +106,30 @@ public:
 
 		e->transform->setLocalScale(vec2{150,199});
 
+		e->sprite->sprite_id = sprite;
+
+		return e;
+	}
+
+
+	ObjectPool<Entity>::iterator spawnEnemy(unsigned sprite)
+	{
+		auto e = entities.push();
+
+		//determines if the enemy spawns on the left or right side of the screen.
+		vec2 newPos = vec2{ 100, 200 }; //((rand() % 2) == 0) ? vec2{ 100, 200 } : vec2{ 1200, 200 };
+
+		e->transform = transforms.push();
+		e->transform->setGlobalPosition(newPos);
+		e->transform->setLocalScale(vec2{ 150,199 });
+
+		e->rigidbody = rigidbodies.push();
+		e->sprite = sprites.push();
+
+		float x = .2f, y = .35f;
+		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ x, -y }, vec2{ -x, y } };
+		//e->collider = colliders.push(Collider(v, 4));
+		e->enemy = enemies.push();
 		e->sprite->sprite_id = sprite;
 
 		return e;
@@ -164,6 +191,14 @@ public:
 
 		e->transform = transforms.push();
 		e->transform->setGlobalPosition(pos);
+
+		return e;
+	}
+
+	ObjectPool<Entity>::iterator spawnTimer(float time)
+	{
+		auto e = entities.push();
+		e->lifetime = lifetimes.push(Lifetime(time));
 
 		return e;
 	}

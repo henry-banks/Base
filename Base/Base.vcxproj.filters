@@ -84,7 +84,7 @@
     <ClInclude Include="base\components\Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="base\components\Boundary.h">
+    <ClInclude Include="Trigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

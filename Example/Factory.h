@@ -7,15 +7,16 @@ class Factory
 	ObjectPool<Entity>	  entities;
 	
 	// The factory will store an object pool for each component type
-	ObjectPool<Transform> transforms;
-	ObjectPool<Rigidbody> rigidbodies;
-	ObjectPool<Collider>  colliders;
-	ObjectPool<Sprite>    sprites;
-	ObjectPool<Lifetime>  lifetimes;
-	ObjectPool<Camera>    cameras;
-	ObjectPool<Text>	  texts;
+	ObjectPool<Transform>	transforms;
+	ObjectPool<Rigidbody>	rigidbodies;
+	ObjectPool<Collider>	colliders;
+	ObjectPool<Sprite>		sprites;
+	ObjectPool<Lifetime>	lifetimes;
+	ObjectPool<Camera>		cameras;
+	ObjectPool<Text>		texts;
 	ObjectPool<PlayerController>	players;
 	ObjectPool<EnemyController>		enemies;
+	ObjectPool<Trigger>		triggers;
 
 public:
 
@@ -27,7 +28,8 @@ public:
 	Factory(size_t size = 512)
 								: entities(size), transforms(size), rigidbodies(size),
 								  colliders(size), sprites(size), lifetimes(size),
-								  cameras(size), players(size), texts(size), enemies(size)
+								  cameras(size), players(size), texts(size), enemies(size),
+								  triggers(size)
 	{
 	}
 
@@ -91,8 +93,12 @@ public:
 
 		float x = .3f, y = .45f;
 
-		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ x, -y }, vec2{ -x, y } };
+		//aabb box = aabb(e->transform->getGlobalPosition(), vec2{ 10, 20 });
+		//e->collider = colliders.push(Collider(box));
+
+		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ -x, -y }, vec2{ x, -y } };
 		e->collider = colliders.push(Collider(v, 4));
+		//e->collider = colliders.push(Collider(.5f));
 		e->player = players.push();
 		e->text = texts.push();
 
@@ -124,7 +130,7 @@ public:
 		e->sprite = sprites.push();
 
 		float x = .2f, y = .35f;
-		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ x, -y }, vec2{ -x, y } };
+		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ -x, -y }, vec2{ x, -y } };
 		//e->collider = colliders.push(Collider(v, 4));
 		e->enemy = enemies.push();
 		e->sprite->sprite_id = sprite;

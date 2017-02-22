@@ -7,7 +7,6 @@ namespace base
 {
 	class Collider
 	{		
-	protected:
 		hull m_hull;
 		aabb m_localBox;
 
@@ -21,6 +20,7 @@ namespace base
 			m_hull = hull(points, 4);
 			m_localBox = m_hull.boundingBox();
 		}
+		Collider(const vec2 &min, const vec2 &max) {}
 
 		const aabb &getLocalBounds() const { return m_localBox; }	
 		const aabb &getGlobalBounds(const Transform *T) const { return T->getGlobalTransform() * m_localBox; }

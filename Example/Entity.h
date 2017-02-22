@@ -22,6 +22,7 @@ public:
 	// example of a component in this project
 	ObjectPool<PlayerController>::iterator player;
 	ObjectPool<EnemyController>::iterator enemy;
+	ObjectPool<Trigger>::iterator trigger;
 
 	void onFree()
 	{

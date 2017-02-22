@@ -18,24 +18,43 @@ protected:
 	//Degub logging
 	void logPos(Transform *T) const { cout << T->getGlobalPosition().x << ", " << T->getGlobalPosition().y << endl; }
 
-	void move(Rigidbody *rb, bool isPos)
+	void move(Transform *T, Rigidbody *rb, bool isPos)
 	{
+	// vec2 dim = T->getLocalScale();
+		// dim.x *= -1;
+		// T->setLocalScale(dim);
+
+		
+		//collider->offset.x *= -1;
 		if (isPos && rb->velocity.x < maxSpeed)
 		{
 			rb->addForce(vec2{ speed,0 });
+			if (isRight)
+			{
+				vec2 dim = T->getLocalScale();
+				dim.x *= -1;
+				T->setLocalScale(dim);
+			}
 			isRight = true;
 		}
 
 		if (!isPos && rb->velocity.x > -maxSpeed)
 		{
 			rb->addForce(vec2{ -speed,0 });
+			if (!isRight)
+			{
+				vec2 dim = T->getLocalScale();
+				dim.x *= -1;
+				T->setLocalScale(dim);
+			}
 			isRight = false;
 		}
 	}
 
 	//Gravity stuff
 	void pollGrav(base::Transform *T, base::Rigidbody *rb, float dt)
-	{
+	{			
+
 		//floor pseudo-collision; turn off gravity
 		if (T->getGlobalPosition().y <= FLOOR_Y && isGravityEnabled)
 		{
@@ -90,8 +109,5 @@ public:
 	bool isGravityEnabled = true;
 	bool isRight = true;	//true if player is facing right
 	bool isAttack = false;
-
-	float shotTimer = 0.0f;
-	bool shotRequest = false;
 
 };

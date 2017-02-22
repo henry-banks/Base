@@ -109,14 +109,9 @@ public:
 				e.rigidbody->integrate(&e.transform, dt);
 
 			// controller update
-			if (e.transform && e.rigidbody && e.player)
+			if (e.transform && e.rigidbody && e.player && e.trigger)
 			{
-				e.player->poll(&e.transform, &e.rigidbody, dt);
-				if (e.player->shotRequest) // controller requested a bullet fire
-				{
-					factory.spawnBullet(spr_bullet, e.transform->getGlobalPosition() + e.transform->getGlobalUp() * 48,
-						vec2{ 32,32 }, e.transform->getGlobalAngle(), 200, 1);
-				}
+				e.player->poll(&e.transform, &e.rigidbody, &e.trigger, dt);
 				e.sprite->sprite_id = (e.player->isRight) ? spr_char : spr_char_flip;
 			}
 
@@ -126,6 +121,11 @@ public:
 				e.enemy->poll(&e.transform, &e.rigidbody, &player->player, &player->transform, dt);
 				e.sprite->sprite_id = (e.enemy->isRight) ? spr_enemy: spr_enemy_flip;
 				e.rigidbody->velocity.x = 0;
+				if (e.enemy->shotRequest) // controller requested a bullet fire
+				{
+					factory.spawnBullet(spr_bullet, e.transform->getGlobalPosition() + e.transform->getGlobalUp() * 48,
+						vec2{ 32,32 }, e.transform->getGlobalAngle(), 200, 1);
+				}
 			}
 			// lifetime decay update
 			if (e.lifetime)
@@ -199,6 +199,7 @@ public:
 				e.text->draw(&e.transform, cam);
 
 
+
 #ifdef _DEBUG
 		for each(auto &e in factory)
 			if (e.transform)
@@ -211,6 +212,10 @@ public:
 		for each(auto &e in factory)
 			if (e.transform && e.rigidbody)
 				e.rigidbody->draw(&e.transform, cam);
+
+		for each(auto &e in factory)
+			if (e.transform && e.trigger && e.trigger->isActive)
+				e.trigger->draw(&e.transform, cam);
 
 
 		//std::cout << currentCamera->transform->getLocalPosition().x << ", " << currentCamera->transform->getLocalPosition().x << endl;

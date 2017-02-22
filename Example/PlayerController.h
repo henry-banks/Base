@@ -21,7 +21,11 @@ class PlayerController : public Controller
 
 public:
 
-	void poll(base::Transform *T, base::Rigidbody *rb, float dt)
+	float attLen = 1.f;
+	//Resets at -attLen, not 0 (for cooldown)
+	float attTimer = -attLen;
+
+	void poll(base::Transform *T, base::Rigidbody *rb, base::Trigger *tr, float dt)
 	{
 		if (sfw::getKey('W') && !isGravityEnabled)
 		{
@@ -29,19 +33,34 @@ public:
 			logPos(T);
 		}
 
-		if (sfw::getKey('A') && rb->velocity.x > -maxSpeed)	move(rb, false);
-		if (sfw::getKey('D') && rb->velocity.x < maxSpeed)	move(rb, true);
-
+		if (sfw::getKey('A') && rb->velocity.x > -maxSpeed)
+		{
+			move(T, rb, false);
+			tr->update(vec2{ -200, 0 });
+		}
+		if (sfw::getKey('D') && rb->velocity.x < maxSpeed)
+		{
+			move(T, rb, true);
+			tr->update(vec2{ 200, 0 });
+		}
 		if (!sfw::getKey('A') && !sfw::getKey('D'))
 			rb->velocity.x = 0.f;
 
-		shotTimer -= dt;
-		if (sfw::getKey(' ') && shotTimer < 0)
+		//attack
+		if (sfw::getMouseButton(1) && attTimer <= -attLen)
 		{
-			shotRequest = true;
-			shotTimer = 0.86f;
+			attTimer = attLen;
+			tr->isActive = true;
 		}
-		else shotRequest = false;
+
+		if (attTimer > -attLen)
+		{
+			if (attTimer <= 0)
+			{
+				tr->isActive = false;
+			}
+			attTimer -= dt;
+		}
 
 		//I'm using pseudo-collision because boundaries are broken and this is fast.
 
@@ -52,4 +71,4 @@ public:
 		pollWall(T, rb, dt);
 	}
 
-};j
+};

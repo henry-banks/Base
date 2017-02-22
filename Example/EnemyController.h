@@ -10,6 +10,9 @@ class EnemyController : public Controller
 
 public:
 
+	float shotTimer = 0.0f;
+	bool shotRequest = false;
+
 	void poll(Transform *T, Rigidbody *rb, PlayerController *pc, Transform *pT, float dt)
 	{
 		//shortcuts
@@ -18,13 +21,23 @@ public:
 
 		//move left (enemy should be within 10 pixels of character)
 		if (pPos.x > pos.x + dist)
-			move(rb, true);
+			move(T, rb, true);
 		//move right (enemy should be within 10 pixels of character)
 		if (pPos.x < pos.x - dist)
-			move(rb, false);
+			move(T, rb, false);
 		//stop if within range of player
 		if (pPos.x > pos.x - dist && pPos.x < pos.x + dist)
 			rb->velocity.x = 0;
+
+		//Maybe don't use this?
+		shotTimer -= dt;
+		if (sfw::getKey(' ') && shotTimer < 0)
+		{
+			shotRequest = true;
+			shotTimer = 0.86f;
+		}
+		else shotRequest = false;
+
 
 		//jump
 

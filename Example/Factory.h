@@ -92,13 +92,18 @@ public:
 
 
 		float x = .3f, y = .45f;
-
-		//aabb box = aabb(e->transform->getGlobalPosition(), vec2{ 10, 20 });
-		//e->collider = colliders.push(Collider(box));
-
 		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ -x, -y }, vec2{ x, -y } };
 		e->collider = colliders.push(Collider(v, 4));
-		//e->collider = colliders.push(Collider(.5f));
+
+		x = y = .25f;
+		float offset = 0; // 2 * x;
+		v[0] = vec2{  x + offset,  y };
+		v[1] = vec2{ -x + offset,  y };
+		v[2] = vec2{ -x + offset, -y };
+		v[3] = vec2{  x + offset, -y };
+		e->trigger = triggers.push(Trigger(v, 4, "player_att"));
+		e->trigger->isActive = true;
+
 		e->player = players.push();
 		e->text = texts.push();
 
@@ -129,9 +134,10 @@ public:
 		e->rigidbody = rigidbodies.push();
 		e->sprite = sprites.push();
 
-		float x = .2f, y = .35f;
+		float x = .25f, y = .45f;
 		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ -x, -y }, vec2{ x, -y } };
-		//e->collider = colliders.push(Collider(v, 4));
+		e->trigger = triggers.push(Trigger(v, 4, "enemy"));
+		e->trigger->isActive = true;
 		e->enemy = enemies.push();
 		e->sprite->sprite_id = sprite;
 

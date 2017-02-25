@@ -17,7 +17,7 @@ public:
 	{
 		//shortcuts
 		vec2 pos = T->getGlobalPosition(), pPos = pT->getGlobalPosition();
-		int dist = 100;
+		int dist = 200;
 
 		//move left (enemy should be within 10 pixels of character)
 		if (pPos.x > pos.x + dist)
@@ -47,6 +47,6 @@ public:
 		//floor pseudo-collision
 		pollWall(T, rb, dt);
 
-		logPos(T);
+		//logPos(T);
 	}
 };

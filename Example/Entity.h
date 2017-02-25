@@ -23,6 +23,7 @@ public:
 	ObjectPool<PlayerController>::iterator player;
 	ObjectPool<EnemyController>::iterator enemy;
 	ObjectPool<Trigger>::iterator trigger;
+	ObjectPool<Trigger>::iterator trigger2;	//I need 2
 
 	void onFree()
 	{

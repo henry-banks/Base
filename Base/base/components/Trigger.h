@@ -3,7 +3,7 @@
 #include "Collider.h"
 #include <string>
 
-//Basically just a Collider with a different name
+//Basically just a Collider with a different name and tags
 namespace base
 {
 	class Trigger : public base::Collider

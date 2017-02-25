@@ -12,20 +12,23 @@ class PlayerController : public Controller
 	//helper functions
 
 	//Degub logging
-	void logPos(Transform *T) const { cout << T->getGlobalPosition().x << ", " << T->getGlobalPosition().y << endl; }
+	//void logPos(Transform *T) const { cout << T->getGlobalPosition().x << ", " << T->getGlobalPosition().y << endl; }
 
 	void attack(Transform *T)
 	{
 
 	}
 
+	float sMax;
+	float sTimer = sMax = 2.f;
+
 public:
 
-	float attLen = 1.f;
+	float attLen = .1f;
 	//Resets at -attLen, not 0 (for cooldown)
 	float attTimer = -attLen;
 
-	void poll(base::Transform *T, base::Rigidbody *rb, base::Trigger *tr, float dt)
+	void poll(base::Transform *T, base::Rigidbody *rb, base::Trigger *trR, base::Trigger *trL, float dt)
 	{
 		if (sfw::getKey('W') && !isGravityEnabled)
 		{
@@ -36,28 +39,34 @@ public:
 		if (sfw::getKey('A') && rb->velocity.x > -maxSpeed)
 		{
 			move(T, rb, false);
-			tr->update(vec2{ -200, 0 });
+			//tr->update(vec2{ -200, 0 });
 		}
 		if (sfw::getKey('D') && rb->velocity.x < maxSpeed)
 		{
 			move(T, rb, true);
-			tr->update(vec2{ 200, 0 });
+			//tr->update(vec2{ 200, 0 });
 		}
+		if (sfw::getKey('S') && sTimer >= sMax)
+		{
+			//T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y * -1 });
+		}
+
 		if (!sfw::getKey('A') && !sfw::getKey('D'))
 			rb->velocity.x = 0.f;
 
 		//attack
-		if (sfw::getMouseButton(1) && attTimer <= -attLen)
+		if (sfw::getMouseButton(0) && attTimer <= -attLen)
 		{
 			attTimer = attLen;
-			tr->isActive = true;
+			isRight ? trR->isActive = true : trL->isActive = true;
 		}
 
 		if (attTimer > -attLen)
 		{
 			if (attTimer <= 0)
 			{
-				tr->isActive = false;
+				trL->isActive = false;
+				trR->isActive = false;
 			}
 			attTimer -= dt;
 		}
@@ -69,6 +78,16 @@ public:
 
 		//floor pseudo-collision
 		pollWall(T, rb, dt);
+
+		if (sTimer > 0)
+			sTimer--;
+		else
+			sTimer = sMax;
+
+		/*if(T->getGlobalUp().y < 0)
+			T->setLocalScale(vec2{ T->getLocalScale().x,T->getLocalScale().y * -1 });
+		if (T->getLocalScale().y < 0)
+			T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y });*/
 	}
 
 };

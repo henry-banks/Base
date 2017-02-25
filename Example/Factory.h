@@ -96,13 +96,20 @@ public:
 		e->collider = colliders.push(Collider(v, 4));
 
 		x = y = .25f;
-		float offset = 0; // 2 * x;
-		v[0] = vec2{  x + offset,  y };
-		v[1] = vec2{ -x + offset,  y };
-		v[2] = vec2{ -x + offset, -y };
-		v[3] = vec2{  x + offset, -y };
+		float offsetX = 2 * x;
+		float offsetY = .1f;
+		v[0] = vec2{  x + offsetX,  y + offsetY };
+		v[1] = vec2{ -x + offsetX,  y + offsetY };
+		v[2] = vec2{ -x + offsetX, -y + offsetY };
+		v[3] = vec2{  x + offsetX, -y + offsetY };
 		e->trigger = triggers.push(Trigger(v, 4, "player_att"));
-		e->trigger->isActive = true;
+		e->trigger->isActive = false;
+		v[0] = vec2{  x - offsetX,  y + offsetY };
+		v[1] = vec2{ -x - offsetX,  y + offsetY };
+		v[2] = vec2{ -x - offsetX, -y + offsetY };
+		v[3] = vec2{  x - offsetX, -y + offsetY };
+		e->trigger2 = triggers.push(Trigger(v, 4, "player_att"));
+		e->trigger->isActive = false;
 
 		e->player = players.push();
 		e->text = texts.push();

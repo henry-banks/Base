@@ -29,24 +29,28 @@ protected:
 		if (isPos && rb->velocity.x < maxSpeed)
 		{
 			rb->addForce(vec2{ speed,0 });
-			if (isRight)
-			{
-				vec2 dim = T->getLocalScale();
-				dim.x *= -1;
-				T->setLocalScale(dim);
-			}
+			//if (!isRight)
+			//{
+			//	float dim = T->getLocalScale().x;
+			//	float y = T->getLocalScale().y;
+			//	dim *= -1;
+			//	T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y });
+			//	//cout << T->getLocalScale().x << ", " << T->getLocalScale().y << endl;
+			//}
 			isRight = true;
 		}
 
 		if (!isPos && rb->velocity.x > -maxSpeed)
 		{
 			rb->addForce(vec2{ -speed,0 });
-			if (!isRight)
-			{
-				vec2 dim = T->getLocalScale();
-				dim.x *= -1;
-				T->setLocalScale(dim);
-			}
+			//if (isRight)
+			//{
+			//	float dim = T->getLocalScale().x;
+			//	float y = T->getLocalScale().y;
+			//	dim *= -1;
+			//	T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y});
+			//	//cout << T->getLocalScale().x << ", " << T->getLocalScale().y << endl;
+			//}
 			isRight = false;
 		}
 	}
@@ -102,7 +106,7 @@ protected:
 
 public:
 
-	float speed = 10000, maxSpeed = 500;
+	float speed = 10000, maxSpeed = 400;
 	float turnSpeed = 1, jumpForce = 700;
 	float gravity = 1000;
 	float gravMax = 10000;

@@ -111,7 +111,7 @@ public:
 			// controller update
 			if (e.transform && e.rigidbody && e.player && e.trigger)
 			{
-				e.player->poll(&e.transform, &e.rigidbody, &e.trigger, dt);
+				e.player->poll(&e.transform, &e.rigidbody, &e.trigger, &e.trigger2, dt);
 				e.sprite->sprite_id = (e.player->isRight) ? spr_char : spr_char_flip;
 			}
 
@@ -214,12 +214,20 @@ public:
 				e.rigidbody->draw(&e.transform, cam);
 
 		for each(auto &e in factory)
+		{
 			if (e.transform && e.trigger && e.trigger->isActive)
+			{
 				e.trigger->draw(&e.transform, cam);
-
+			}
+			if (e.transform && e.trigger2 && e.trigger2->isActive)
+				e.trigger2->draw(&e.transform, cam);
+		}
+			
+				
 
 		//std::cout << currentCamera->transform->getLocalPosition().x << ", " << currentCamera->transform->getLocalPosition().x << endl;
-		cout << enemy1->transform->getGlobalPosition().x << ", " << enemy1->transform->getGlobalPosition().y << endl;
+		//cout << enemy1->transform->getGlobalPosition().x << ", " << enemy1->transform->getGlobalPosition().y << endl;
+		cout << player->transform->getLocalScale().y << ", " << player->transform->getGlobalUp().y << endl;
 #endif
 	}
 };

@@ -126,6 +126,7 @@
     <ClInclude Include="base\components\Rigidbody.h" />
     <ClInclude Include="base\components\Sprite.h" />
     <ClInclude Include="base\components\Text.h" />
+    <ClInclude Include="base\components\Timer.h" />
     <ClInclude Include="base\components\Transform.h" />
     <ClInclude Include="base\components\Trigger.h" />
     <ClInclude Include="base\Data.h" />

@@ -23,7 +23,8 @@ public:
 	ObjectPool<PlayerController>::iterator player;
 	ObjectPool<EnemyController>::iterator enemy;
 	ObjectPool<Trigger>::iterator trigger;
-	ObjectPool<Trigger>::iterator trigger2;	//I need 2
+	ObjectPool<Trigger>::iterator trigger2;	//I need two
+	ObjectPool<Timer>::iterator timer;
 
 	void onFree()
 	{
@@ -37,5 +38,7 @@ public:
 
 		player.free();
 		enemy.free();
+		trigger.free();
+		trigger2.free();
 	}
 };

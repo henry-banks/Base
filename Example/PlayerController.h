@@ -20,7 +20,7 @@ class PlayerController : public Controller
 	}
 
 	float sMax;
-	float sTimer = sMax = 2.f;
+	float sTimer = sMax = 5.f;
 
 public:
 

@@ -12,3 +12,4 @@
 #include "components\Camera.h"
 #include "components\Text.h"
 #include "components\Trigger.h"
+#include "components\Timer.h"

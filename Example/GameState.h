@@ -21,8 +21,12 @@ class GameState : public BaseState
 	Factory factory;
 	unsigned spr_space, spr_ship, spr_bullet, spr_roid, spr_font,
 			 spr_char, spr_char_flip, spr_enemy, spr_enemy_flip, spr_back;
-	ObjectPool<Entity>::iterator currentCamera, spawnTimer;
-	ObjectPool<Entity>::iterator player, enemy1;
+	ObjectPool<Entity>::iterator currentCamera, enemyTimer;
+	ObjectPool<Entity>::iterator player;
+
+	ObjectPool<Entity> enemies;
+
+	int enemyCount = 0, enemyMax = 100;
 
 public:
 	virtual void init()
@@ -54,9 +58,9 @@ public:
 
 		player = factory.spawnPlayer(spr_char, spr_font);
 
-		enemy1 = factory.spawnEnemy(spr_enemy);
+		//enemy1 = factory.spawnEnemy(spr_enemy);
 
-		spawnTimer = factory.spawnTimer(2.f);
+		enemyTimer = factory.spawnTimer(2.f, "enemyTimer");
 
 		//factory.spawnBoundary(100, -150, false);
 		//factory.spawnBoundary(100, 100, true);
@@ -84,17 +88,15 @@ public:
 		float dt = sfw::getDeltaTime();
 
 		//Update spawn timer
-		if (spawnTimer->lifetime)
+		if (enemyTimer->timer && !enemyTimer->timer->isAlive())
 		{
-			if (!spawnTimer->lifetime->isAlive())
+			if (enemyCount < enemyMax)
 			{
-				factory.spawnEnemy(spr_enemy);
-				spawnTimer->lifetime->reset();
-			}
-
-			spawnTimer->lifetime->age(dt);
+				enemies.push(*factory.spawnEnemy(spr_enemy));
+				enemyCount++;
+			}			
+			enemyTimer->timer->reset();
 		}
-			
 		
 
 		// maybe spawn some asteroids here.
@@ -113,6 +115,26 @@ public:
 			{
 				e.player->poll(&e.transform, &e.rigidbody, &e.trigger, &e.trigger2, dt);
 				e.sprite->sprite_id = (e.player->isRight) ? spr_char : spr_char_flip;
+
+				//ObjectPool<PlayerController>::iterator p = e.player; //shortcut
+
+				//Attack
+				if (e.trigger->isActive || e.trigger2->isActive)
+				{
+					for (auto it = enemies.begin(); it != enemies.end();)
+					{
+						//I've never done a ternary inside of an if statement before...
+						if (e.trigger->isActive ? (base::BoundsTest(&e.transform, &e.trigger, &it->transform, &it->trigger)) :
+							(base::BoundsTest(&e.transform, &e.trigger2, &it->transform, &it->trigger2)))
+						{
+							//The triggers are boxes so a bounding box test will do
+							it->onFree();
+							continue;
+						}
+						it++;
+					}
+				}
+				
 			}
 
 			//enemy update
@@ -135,6 +157,14 @@ public:
 					del = true;
 			}
 
+			// timer decay update
+			if (e.timer)
+			{
+				e.timer->age(dt);
+				if (e.timer->name == "enemyTimer")
+					enemyTimer = it;
+			}
+
 			if (sfw::getKey('E'))
 			{
 				factory.spawnEnemy(spr_enemy);
@@ -154,7 +184,7 @@ public:
 		// You'll want to extend this with custom collision responses
 
 		
-		for (auto it = factory.begin(); it != factory.end(); it++) { // for each entity
+		/*for (auto it = factory.begin(); it != factory.end(); it++) { // for each entity
 			for (auto bit = it; bit != factory.end(); bit++) {	  // for every other entity
 				if (it != bit && it->transform && it->collider && bit->transform && bit->collider)
 					// if they aren't the same and they both have collidable bits...
@@ -179,7 +209,7 @@ public:
 					}
 				}
 			}
-		}
+		}*/
 	}
 
 

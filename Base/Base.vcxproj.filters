@@ -87,5 +87,8 @@
     <ClInclude Include="base\components\Trigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="base\components\Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

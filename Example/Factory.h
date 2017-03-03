@@ -17,6 +17,7 @@ class Factory
 	ObjectPool<PlayerController>	players;
 	ObjectPool<EnemyController>		enemies;
 	ObjectPool<Trigger>		triggers;
+	ObjectPool<Timer>		timers;
 
 public:
 
@@ -29,8 +30,44 @@ public:
 								: entities(size), transforms(size), rigidbodies(size),
 								  colliders(size), sprites(size), lifetimes(size),
 								  cameras(size), players(size), texts(size), enemies(size),
-								  triggers(size)
+								  triggers(size), timers(size)
 	{
+	}
+
+	//general-purpose getter
+	template<typename T>
+	ObjectPool<T> getObjectPool(const std::string &name) const
+	{
+		switch (name)
+		{
+		case "entities":
+			return entities; break;
+		case "transforms":
+			return transforms; break;
+		case "rigidbodies":
+			return rigidbodies; break;
+		case "colliders":
+			return colliders; break;
+		case "sprites":
+			return sprites; break;
+		case "lifetimes":
+			return lifetimes; break;
+		case "cameras":
+			return cameras; break;
+		case "texts":
+			return texts; break;
+		case "players":
+			return players; break;
+		case "enemies":
+			return enemies; break;
+		case "triggers":
+			return triggers; break;
+		case "timers":
+			return timers; break;
+		default:
+			return entities;
+			break;
+		}
 	}
 
 	// What follows are specialized spawning functions
@@ -41,8 +78,9 @@ public:
 		auto e = entities.push();
 		e->transform = transforms.push();
 		e->camera = cameras.push();
-		e->camera->offset = vec2{w2,h2};
+		e->camera->offset = vec2{ w2,h2 };
 		e->camera->scale = vec2{ zoom,zoom };
+
 		return e;
 	}
 
@@ -182,10 +220,10 @@ public:
 		return e;
 	}
 
-	ObjectPool<Entity>::iterator spawnTimer(float time)
+	ObjectPool<Entity>::iterator spawnTimer(float time, std::string name = "name")
 	{
 		auto e = entities.push();
-		e->lifetime = lifetimes.push(Lifetime(time));
+		e->timer = timers.push(Timer(time, name));
 
 		return e;
 	}

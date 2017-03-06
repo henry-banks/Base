@@ -95,7 +95,7 @@ public:
 		return e;
 	}
 
-	ObjectPool<Entity>::iterator spawnBullet(unsigned sprite, vec2 pos, vec2 dim, float ang, float impulse, unsigned faction)
+	ObjectPool<Entity>::iterator spawnBullet(unsigned sprite, vec2 pos, vec2 dim, float ang, float impulse, unsigned faction, bool isRight)
 	{
 		auto e = entities.push();
 
@@ -103,16 +103,30 @@ public:
 		e->rigidbody = rigidbodies.push();
 		e->sprite = sprites.push();
 		e->lifetime = lifetimes.push();
-		e->collider = colliders.push();
+
+		float x = 1.f;
+		float y = .25f;
+		float offsetX = 0.f;
+		float offsetY = 0.f;
+		vec2 v[4];
+		v[0] = vec2{ x,  y};
+		v[1] = vec2{-x,  y};
+		v[2] = vec2{-x, -y};
+		v[3] = vec2{ x, -y};
+		e->trigger = triggers.push(Trigger(v,4,"bullet"));
+		e->trigger->isActive = true;
 
 		e->transform->setLocalPosition(pos);
 		e->transform->setLocalScale(dim);
 		e->transform->setLocalAngle(ang);
 
 		e->sprite->sprite_id = sprite;
-		e->sprite->dimensions = vec2{1.2f, 1.2f};
+		e->sprite->dimensions = vec2{2.f, .5f};
 
-		e->rigidbody->addImpulse(e->transform->getGlobalUp() * impulse);
+		if(isRight)
+			e->rigidbody->addImpulse(vec2{ impulse, 0 });
+		else
+			e->rigidbody->addImpulse(vec2{ -impulse, 0 });
 
 		e->lifetime->lifespan = 1.6f;
 		
@@ -129,13 +143,14 @@ public:
 		e->sprite = sprites.push();
 
 
-		float x = .3f, y = .45f;
+		float x = .1f, y = .25f;
 		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ -x, -y }, vec2{ x, -y } };
 		e->collider = colliders.push(Collider(v, 4));
 
-		x = y = .25f;
+		x =.25f;
+		y = .3f;
 		float offsetX = 2 * x;
-		float offsetY = .1f;
+		float offsetY = .2f;
 		v[0] = vec2{  x + offsetX,  y + offsetY };
 		v[1] = vec2{ -x + offsetX,  y + offsetY };
 		v[2] = vec2{ -x + offsetX, -y + offsetY };
@@ -170,16 +185,16 @@ public:
 		auto e = entities.push();
 
 		//determines if the enemy spawns on the left or right side of the screen.
-		vec2 newPos = vec2{ 100, 200 }; //((rand() % 2) == 0) ? vec2{ 100, 200 } : vec2{ 1200, 200 };
+		vec2 newPos = ((rand() % 2) == 0) ? vec2{ 100, 200 } : vec2{ 1200, 200 };
 
 		e->transform = transforms.push();
 		e->transform->setGlobalPosition(newPos);
-		e->transform->setLocalScale(vec2{ 150,199 });
+		e->transform->setLocalScale(vec2{ 110,199 });
 
 		e->rigidbody = rigidbodies.push();
 		e->sprite = sprites.push();
 
-		float x = .25f, y = .45f;
+		float x = .35f, y = .45f;
 		vec2 v[4] = { vec2{ x, y }, vec2{ -x, y }, vec2{ -x, -y }, vec2{ x, -y } };
 		e->trigger = triggers.push(Trigger(v, 4, "enemy"));
 		e->trigger->isActive = true;
@@ -224,6 +239,21 @@ public:
 	{
 		auto e = entities.push();
 		e->timer = timers.push(Timer(time, name));
+
+		return e;
+	}
+
+	ObjectPool<Entity>::iterator spawnText(unsigned font, std::string text_a, vec2 pos, vec2 scl = {1,1}, unsigned tint = WHITE)
+	{
+		auto e = entities.push();
+		e->transform = transforms.push();
+		e->transform->setGlobalPosition(pos);
+
+		e->text = texts.push();
+		e->text->sprite_id = font;
+		e->text->setString(text_a.c_str());
+		e->text->off_scale = scl;
+		e->text->tint = tint;
 
 		return e;
 	}

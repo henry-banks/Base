@@ -10,8 +10,14 @@ class EnemyController : public Controller
 
 public:
 
-	float shotTimer = 0.0f;
+	float shotMax;
+	float shotTimer = shotMax = 4.0f;
 	bool shotRequest = false;
+
+	EnemyController() : Controller()
+	{
+		maxSpeed /= 1.5;
+	}
 
 	void poll(Transform *T, Rigidbody *rb, PlayerController *pc, Transform *pT, float dt)
 	{
@@ -30,11 +36,12 @@ public:
 			rb->velocity.x = 0;
 
 		//Maybe don't use this?
+		//No I'm using this.  It's fast.
 		shotTimer -= dt;
-		if (sfw::getKey(' ') && shotTimer < 0)
+		if (shotTimer < 0)
 		{
 			shotRequest = true;
-			shotTimer = 0.86f;
+			shotTimer = shotMax;
 		}
 		else shotRequest = false;
 

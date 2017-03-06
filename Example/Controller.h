@@ -14,7 +14,7 @@ class Controller
 {
 public:
 
-	float speed = 100000, maxSpeed = 400;
+	float speed = 500000, maxSpeed = 300;
 	float turnSpeed = 1, jumpForce = 700;
 	float gravity = 1000;
 	float gravMax = 10000;
@@ -39,28 +39,14 @@ protected:
 		if (isPos && rb->velocity.x < maxSpeed)
 		{
 			rb->addForce(vec2{ speed * dt,0 });
-			//if (!isRight)
-			//{
-			//	float dim = T->getLocalScale().x;
-			//	float y = T->getLocalScale().y;
-			//	dim *= -1;
-			//	T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y });
-			//	//cout << T->getLocalScale().x << ", " << T->getLocalScale().y << endl;
-			//}
+			if (rb->velocity.x > maxSpeed) rb->velocity.x = maxSpeed;
 			isRight = true;
 		}
 
 		if (!isPos && rb->velocity.x > -maxSpeed)
 		{
 			rb->addForce(vec2{ -speed * dt,0 });
-			//if (isRight)
-			//{
-			//	float dim = T->getLocalScale().x;
-			//	float y = T->getLocalScale().y;
-			//	dim *= -1;
-			//	T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y});
-			//	//cout << T->getLocalScale().x << ", " << T->getLocalScale().y << endl;
-			//}
+			if (rb->velocity.x < -maxSpeed) rb->velocity.x = -maxSpeed;
 			isRight = false;
 		}
 	}

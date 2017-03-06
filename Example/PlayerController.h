@@ -19,15 +19,16 @@ class PlayerController : public Controller
 
 	}
 
-	float sMax;
-	float sTimer = sMax = 5.f;
 
 public:
 
 	float attLen = .1f;
 	float attTimer = -attLen;
-	float attCooldown = .3f;
+	float attCooldown = .2f;
 	bool canAtt = true;
+
+	int life = 20;
+	int score = 0;
 
 	void poll(base::Transform *T, base::Rigidbody *rb, base::Trigger *trR, base::Trigger *trL, float dt)
 	{
@@ -38,19 +39,9 @@ public:
 		}
 
 		if (sfw::getKey('A') && rb->velocity.x > -maxSpeed)
-		{
 			move(T, rb, false, dt);
-			//tr->update(vec2{ -200, 0 });
-		}
 		if (sfw::getKey('D') && rb->velocity.x < maxSpeed)
-		{
 			move(T, rb, true, dt);
-			//tr->update(vec2{ 200, 0 });
-		}
-		if (sfw::getKey('S') && sTimer >= sMax)
-		{
-			//T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y * -1 });
-		}
 
 		if (!sfw::getKey('A') && !sfw::getKey('D'))
 			rb->velocity.x = 0.f;
@@ -81,16 +72,6 @@ public:
 
 		//floor pseudo-collision
 		pollWall(T, rb, dt);
-
-		if (sTimer > 0)
-			sTimer--;
-		else
-			sTimer = sMax;
-
-		/*if(T->getGlobalUp().y < 0)
-			T->setLocalScale(vec2{ T->getLocalScale().x,T->getLocalScale().y * -1 });
-		if (T->getLocalScale().y < 0)
-			T->setLocalScale(vec2{ T->getLocalScale().x * -1,T->getLocalScale().y });*/
 	}
 
 };

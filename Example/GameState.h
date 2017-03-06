@@ -29,6 +29,9 @@ class GameState : public BaseState
 	int enemyCount = 0, enemyMax = 100;
 
 public:
+	GameState(size_t size = 512) : enemies(size)
+	{}
+
 	virtual void init()
 	{
 		spr_bullet = sfw::loadTextureMap("../res/bullet.png");
@@ -125,10 +128,11 @@ public:
 					{
 						//I've never done a ternary inside of an if statement before...
 						if (e.trigger->isActive ? (base::BoundsTest(&e.transform, &e.trigger, &it->transform, &it->trigger)) :
-							(base::BoundsTest(&e.transform, &e.trigger2, &it->transform, &it->trigger2)))
+							(base::BoundsTest(&e.transform, &e.trigger2, &it->transform, &it->trigger)))
 						{
 							//The triggers are boxes so a bounding box test will do
 							it->onFree();
+							it.free();
 							continue;
 						}
 						it++;
@@ -260,4 +264,10 @@ public:
 		cout << player->transform->getLocalScale().y << ", " << player->transform->getGlobalUp().y << endl;
 #endif
 	}
+
+	states next_a() const
+	{
+		return GAME;
+	}
+
 };

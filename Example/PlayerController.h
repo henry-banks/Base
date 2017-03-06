@@ -25,8 +25,9 @@ class PlayerController : public Controller
 public:
 
 	float attLen = .1f;
-	//Resets at -attLen, not 0 (for cooldown)
 	float attTimer = -attLen;
+	float attCooldown = .3f;
+	bool canAtt = true;
 
 	void poll(base::Transform *T, base::Rigidbody *rb, base::Trigger *trR, base::Trigger *trL, float dt)
 	{
@@ -38,12 +39,12 @@ public:
 
 		if (sfw::getKey('A') && rb->velocity.x > -maxSpeed)
 		{
-			move(T, rb, false);
+			move(T, rb, false, dt);
 			//tr->update(vec2{ -200, 0 });
 		}
 		if (sfw::getKey('D') && rb->velocity.x < maxSpeed)
 		{
-			move(T, rb, true);
+			move(T, rb, true, dt);
 			//tr->update(vec2{ 200, 0 });
 		}
 		if (sfw::getKey('S') && sTimer >= sMax)
@@ -55,14 +56,15 @@ public:
 			rb->velocity.x = 0.f;
 
 		//attack
-		if (sfw::getMouseButton(0) && attTimer <= -attLen)
+		if (sfw::getMouseButton(0) && canAtt)
 		{
 			attTimer = attLen;
 			isRight ? trR->isActive = true : trL->isActive = true;
 		}
 
-		if (attTimer > -attLen)
+		if (attTimer > -attCooldown)
 		{
+			if(canAtt) canAtt = false;
 			if (attTimer <= 0)
 			{
 				trL->isActive = false;
@@ -70,6 +72,7 @@ public:
 			}
 			attTimer -= dt;
 		}
+		else canAtt = true;
 
 		//I'm using pseudo-collision because boundaries are broken and this is fast.
 

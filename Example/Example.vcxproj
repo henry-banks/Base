@@ -137,7 +137,9 @@
     <ClInclude Include="EnemyController.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="MenuState.h" />
     <ClInclude Include="PlayerController.h" />
   </ItemGroup>
   <ItemGroup>

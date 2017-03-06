@@ -12,13 +12,23 @@ using namespace base;
 
 class Controller
 {
+public:
+
+	float speed = 100000, maxSpeed = 400;
+	float turnSpeed = 1, jumpForce = 700;
+	float gravity = 1000;
+	float gravMax = 10000;
+	bool isGravityEnabled = true;
+	bool isRight = true;	//true if player is facing right
+	bool isAttack = false;
+
 protected:
 	//Helper functions
 
 	//Degub logging
 	void logPos(Transform *T) const { cout << T->getGlobalPosition().x << ", " << T->getGlobalPosition().y << endl; }
 
-	void move(Transform *T, Rigidbody *rb, bool isPos)
+	void move(Transform *T, Rigidbody *rb, bool isPos, float dt)
 	{
 	// vec2 dim = T->getLocalScale();
 		// dim.x *= -1;
@@ -28,7 +38,7 @@ protected:
 		//collider->offset.x *= -1;
 		if (isPos && rb->velocity.x < maxSpeed)
 		{
-			rb->addForce(vec2{ speed,0 });
+			rb->addForce(vec2{ speed * dt,0 });
 			//if (!isRight)
 			//{
 			//	float dim = T->getLocalScale().x;
@@ -42,7 +52,7 @@ protected:
 
 		if (!isPos && rb->velocity.x > -maxSpeed)
 		{
-			rb->addForce(vec2{ -speed,0 });
+			rb->addForce(vec2{ -speed * dt,0 });
 			//if (isRight)
 			//{
 			//	float dim = T->getLocalScale().x;
@@ -103,15 +113,4 @@ protected:
 	}
 
 	virtual void attack() {}
-
-public:
-
-	float speed = 10000, maxSpeed = 400;
-	float turnSpeed = 1, jumpForce = 700;
-	float gravity = 1000;
-	float gravMax = 10000;
-	bool isGravityEnabled = true;
-	bool isRight = true;	//true if player is facing right
-	bool isAttack = false;
-
 };

@@ -16,3 +16,16 @@ public:
 	virtual void step() {} // called every frame
 	virtual void draw() {} // called every frame
 };
+
+enum states
+{
+	MENU_START,
+	MENU,
+	OPTIONS_START,
+	OPTIONS,
+	GAME_START,
+	GAME,
+	END_START,
+	END,
+	TERMINATE
+};

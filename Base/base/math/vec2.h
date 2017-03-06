@@ -75,4 +75,7 @@ inline vec2 abs(const vec2 &a)
 inline bool operator==(const vec2 &a, const vec2 &b) { return flops::fequals(a.x, b.x) && flops::fequals(a.y, b.y); }
 inline bool operator!=(const vec2 &a, const vec2 &b) { return !(a == b); }
 
+inline bool operator>(const vec2 &a, const vec2 &b) { return (a.x > b.x && a.y > b.y); }
+inline bool operator<(const vec2 &a, const vec2 &b) { return (a.x < b.x && a.y < b.y); }
+
 }

@@ -21,10 +21,10 @@ public:
 
 		//move left (enemy should be within 10 pixels of character)
 		if (pPos.x > pos.x + dist)
-			move(T, rb, true);
+			move(T, rb, true, dt);
 		//move right (enemy should be within 10 pixels of character)
 		if (pPos.x < pos.x - dist)
-			move(T, rb, false);
+			move(T, rb, false, dt);
 		//stop if within range of player
 		if (pPos.x > pos.x - dist && pPos.x < pos.x + dist)
 			rb->velocity.x = 0;

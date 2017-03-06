@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="base\Components.h" />
+    <ClInclude Include="base\components\Button.h" />
     <ClInclude Include="base\components\Camera.h" />
     <ClInclude Include="base\components\Collider.h" />
     <ClInclude Include="base\components\compdef.h" />
